@@ -60,14 +60,15 @@ def CreateTileDictionary():
     
 def DisplayTileValues(TileDictionary, AllowedWords):
   print()
-  print("TILE VALUES")
+  print("TILE FREQUENCY")
   print()
-######################################################################################################################
   AlphabetCount = CalculateFrequencies() 
   Alphabet = ['A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z']
-  print(','.join(Alphabet))
-  print(','.join(AlphabetCount)) 
-######################################################################################################################
+  for i in range(len(Alphabet)):
+      print(str(Alphabet[i]) + " --> " + str(AlphabetCount[i]))
+  print()
+  print("TILE VALUES")
+  print()
   for Letter, Points in TileDictionary.items():
     print("Points for " + Letter + ": " + str(Points))
   print()
@@ -82,7 +83,7 @@ def GetStartingHand(TileQueue, StartHandSize):
 def LoadAllowedWords():
   AllowedWords = []
   try:
-    WordsFile = open("H:/Computing Resources/aqawords.txt", "r")
+    WordsFile = open("aqawords.txt", "r")
     for Word in WordsFile:
       AllowedWords.append(Word.strip().upper())
     WordsFile.close()
@@ -273,12 +274,9 @@ def Main():
   print("++++++++++++++++++++++++++++++++++++++")
   print()
   print()
-
-##############################################################
   StartHandSize = 100
   while StartHandSize > 20 or StartHandSize < 1:
   	StartHandSize = int(input('Enter start hand size: '))
-##############################################################
 
   AllowedWords = LoadAllowedWords()
   TileDictionary = CreateTileDictionary()
@@ -295,21 +293,21 @@ def Main():
     elif Choice == "2":
       PlayGame(AllowedWords, TileDictionary, False, 15, MaxHandSize, MaxTilesPlayed, NoOfEndOfTurnTiles)
 
-###################################################################################################################################
 def CalculateFrequencies():
-	AllowedWords = LoadAllowedWords()
-	Alphabet = ['A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z']
-	AlphabetCount = ['0','0','0','0','0','0','0','0','0','0','0','0','0','0','0','0','0','0','0','0','0','0','0','0','0','0']
-	for i in range(len(Alphabet)):
-		count = 0
-		for k in range(len(AllowedWords)):
-			if Alphabet[i] in AllowedWords[k]:
-				count +=1
-			else:
-				a = b
-		AlphabetCount[i] = count
-	return AlphabetCount
-###################################################################################################################################
+  AllowedWords = LoadAllowedWords()
+  Alphabet = ['A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z']
+  AlphabetCount = ['0','0','0','0','0','0','0','0','0','0','0','0','0','0','0','0','0','0','0','0','0','0','0','0','0','0']
+
+  for i in range(len(Alphabet)):
+    count = 0
+    for k in range(len(AllowedWords)):
+      for x in range(len(AllowedWords[k])):
+        if Alphabet[i] == AllowedWords[k][x]:
+          count +=1
+    AlphabetCount[i] = count
+      
+  return AlphabetCount
+
 
      
 if __name__ == "__main__":
